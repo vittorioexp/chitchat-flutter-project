@@ -5,7 +5,7 @@ class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
 
   @override
-  _StartScreenState createState() => _StartScreenState();
+  State<StartScreen> createState() => _StartScreenState();
 }
 
 class _StartScreenState extends State<StartScreen>
@@ -38,7 +38,7 @@ class _StartScreenState extends State<StartScreen>
         setState(() {
           _showSpinner = false;
         });
-        Navigator.of(context).push(
+        Navigator.of(context).pushReplacement(
           PageRouteBuilder(
             transitionDuration: const Duration(
               milliseconds: 500,
