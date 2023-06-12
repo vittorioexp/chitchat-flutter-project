@@ -1,5 +1,6 @@
 import 'package:chitchat/screens/chat.dart';
 import 'package:chitchat/screens/splash.dart';
+import 'package:chitchat/screens/start.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -39,7 +40,7 @@ class App extends StatelessWidget {
           if (snapshot.hasData) {
             return const ChatScreen();
           }
-          return const AuthScreen();
+          return const StartScreen();
         },
       ),
     );
