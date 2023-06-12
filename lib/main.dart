@@ -41,12 +41,9 @@ class App extends StatelessWidget {
           }
 
           if (snapshot.hasData) {
-            print("*********************************");
-            print(snapshot.data);
-            print("*********************************");
-
             return const ChatScreen();
           }
+
           return const AuthScreen();
         },
       ),
