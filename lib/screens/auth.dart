@@ -105,95 +105,98 @@ class AuthScreenState extends State<AuthScreen> {
                 width: 200,
                 child: Image.asset('assets/images/logo3.png'),
               ),
-              Card(
-                margin: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Form(
-                      key: _form,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (!_isLoggedIn)
-                            UserImagePicker(
-                              onPickImage: (pickedImage) {
-                                _selectedImage = pickedImage;
-                              },
-                            ),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                                labelText: 'Email address'),
-                            keyboardType: TextInputType.emailAddress,
-                            autocorrect: false,
-                            textCapitalization: TextCapitalization.none,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty ||
-                                  !value.contains('@')) {
-                                return 'Invalid email address.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _enteredEmail = value!;
-                            },
-                          ),
-                          if (!_isLoggedIn)
+              Container(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: Card(
+                  margin: const EdgeInsets.all(20),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Form(
+                        key: _form,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (!_isLoggedIn)
+                              UserImagePicker(
+                                onPickImage: (pickedImage) {
+                                  _selectedImage = pickedImage;
+                                },
+                              ),
                             TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Username'),
-                              enableSuggestions: false,
-                              onSaved: (value) {
-                                _enteredUsername = value!;
-                              },
+                              decoration: const InputDecoration(
+                                  labelText: 'Email address'),
+                              keyboardType: TextInputType.emailAddress,
+                              autocorrect: false,
+                              textCapitalization: TextCapitalization.none,
                               validator: (value) {
                                 if (value == null ||
                                     value.trim().isEmpty ||
-                                    value.trim().length < 4) {
-                                  return 'Invalid username';
+                                    !value.contains('@')) {
+                                  return 'Invalid email address.';
                                 }
                                 return null;
                               },
-                            ),
-                          TextFormField(
-                            decoration:
-                                const InputDecoration(labelText: 'Password'),
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.trim().length < 6) {
-                                return 'Password must be at least 6 characters long.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _enteredPassword = value!;
-                            },
-                          ),
-                          const SizedBox(height: 12),
-                          if (_isAuthenticating)
-                            const CircularProgressIndicator(),
-                          if (!_isAuthenticating)
-                            ElevatedButton(
-                              onPressed: _submit,
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer),
-                              child: Text(_isLoggedIn ? 'Login' : 'Signup'),
-                            ),
-                          if (!_isAuthenticating)
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isLoggedIn = !_isLoggedIn;
-                                });
+                              onSaved: (value) {
+                                _enteredEmail = value!;
                               },
-                              child: Text(_isLoggedIn
-                                  ? 'Create an account'
-                                  : 'I already have an account'),
-                            )
-                        ],
+                            ),
+                            if (!_isLoggedIn)
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                    labelText: 'Username'),
+                                enableSuggestions: false,
+                                onSaved: (value) {
+                                  _enteredUsername = value!;
+                                },
+                                validator: (value) {
+                                  if (value == null ||
+                                      value.trim().isEmpty ||
+                                      value.trim().length < 4) {
+                                    return 'Invalid username';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            TextFormField(
+                              decoration:
+                                  const InputDecoration(labelText: 'Password'),
+                              obscureText: true,
+                              validator: (value) {
+                                if (value == null || value.trim().length < 6) {
+                                  return 'Password must be at least 6 characters long.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredPassword = value!;
+                              },
+                            ),
+                            const SizedBox(height: 12),
+                            if (_isAuthenticating)
+                              const CircularProgressIndicator(),
+                            if (!_isAuthenticating)
+                              ElevatedButton(
+                                onPressed: _submit,
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer),
+                                child: Text(_isLoggedIn ? 'Login' : 'Signup'),
+                              ),
+                            if (!_isAuthenticating)
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isLoggedIn = !_isLoggedIn;
+                                  });
+                                },
+                                child: Text(_isLoggedIn
+                                    ? 'Create an account'
+                                    : 'I already have an account'),
+                              )
+                          ],
+                        ),
                       ),
                     ),
                   ),
