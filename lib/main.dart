@@ -1,6 +1,6 @@
+import 'package:chitchat/screens/auth.dart';
 import 'package:chitchat/screens/chat.dart';
 import 'package:chitchat/screens/splash.dart';
-import 'package:chitchat/screens/start.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -13,6 +13,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Add an artificial delay of 2 seconds before running the app
+  await Future.delayed(const Duration(seconds: 5));
+
   runApp(const App());
 }
 
@@ -37,9 +41,13 @@ class App extends StatelessWidget {
           }
 
           if (snapshot.hasData) {
+            print("*********************************");
+            print(snapshot.data);
+            print("*********************************");
+
             return const ChatScreen();
           }
-          return const StartScreen();
+          return const AuthScreen();
         },
       ),
     );
