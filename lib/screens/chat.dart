@@ -5,7 +5,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  final String chatId;
+
+  const ChatScreen({super.key, required this.chatId});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -17,7 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     await fcm.requestPermission();
 
-    await fcm.subscribeToTopic('chat');
+    await fcm.subscribeToTopic('chats');
   }
 
   @override
@@ -35,6 +37,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
+              Navigator.of(context).pop();
             },
             icon: Icon(
               Icons.exit_to_app,
@@ -43,10 +46,10 @@ class _ChatScreenState extends State<ChatScreen> {
           )
         ],
       ),
-      body: const Column(
+      body: Column(
         children: [
-          Expanded(child: ChatMessages()),
-          NewMessage(),
+          Expanded(child: ChatMessages(chatId: widget.chatId)),
+          NewMessage(chatId: widget.chatId),
         ],
       ),
     );

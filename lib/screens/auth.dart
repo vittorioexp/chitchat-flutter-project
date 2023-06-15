@@ -62,11 +62,14 @@ class AuthScreenState extends State<AuthScreen> {
         await FirebaseFirestore.instance
             .collection('users')
             .doc(userCredentials.user!.uid)
-            .set({
-          'username': _enteredUsername,
-          'email': _enteredEmail,
-          'image_url': imageUrl,
-        });
+            .set(
+          {
+            'uid': userCredentials.user!.uid,
+            'username': _enteredUsername,
+            'email': _enteredEmail,
+            'image_url': imageUrl,
+          },
+        );
       }
     } on FirebaseAuthException catch (error) {
       var authFailedMessage = 'Authentication failed';
