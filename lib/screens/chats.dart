@@ -1,3 +1,4 @@
+import 'package:chitchat/screens/auth.dart';
 import 'package:chitchat/screens/chat.dart';
 import 'package:chitchat/widgets/select_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,7 +19,8 @@ class ChatsScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
-              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (ctx) => const AuthScreen()));
             },
             icon: Icon(
               Icons.exit_to_app,
