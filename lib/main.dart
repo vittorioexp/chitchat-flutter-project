@@ -14,8 +14,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Add an artificial delay of 2 seconds before running the app
-  await Future.delayed(const Duration(seconds: 5));
+  // Add an artificial delay before running the app
+  await Future.delayed(const Duration(seconds: 1));
 
   runApp(const App());
 }
