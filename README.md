@@ -26,6 +26,16 @@ Great! Now you're all set to use the Chitchat Flutter application.
 
 
 
+Future developments
+---
+
+- Implement input validation in the signup process to handle scenarios where required information, such as a profile picture, is missing.
+- Display the message 'No users found' when attempting to create a group without any registered users.
+- Design a group creation screen that allows users to select participants, set a custom name, and choose a picture for the group.
+- Develop a group modification screen to enable users to make changes to an existing group.
+- Create a user profile screen that offers options to edit the username, email, and profile picture.
+
+
 Contributing
 ---
 
