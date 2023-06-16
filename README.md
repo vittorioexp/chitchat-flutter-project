@@ -34,6 +34,7 @@ Future developments
 - Design a group creation screen that allows users to select participants, set a custom name, and choose a picture for the group.
 - Develop a group modification screen to enable users to make changes to an existing group.
 - Create a user profile screen that offers options to edit the username, email, and profile picture.
+- Show a notification badge or a number near the chat list tile to indicate the presence of new unread messages
 
 
 Contributing
