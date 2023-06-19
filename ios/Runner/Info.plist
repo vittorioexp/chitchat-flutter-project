@@ -49,5 +49,15 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Chitchat needs access to your photo library in order to select a profile image.</string>
+
+		<key>NSCameraUsageDescription</key>
+		<string>Chitchat requires access to your camera to capture a profile image.</string>
+
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Chitchat needs access to your microphone for recording videos as profile content.</string>
+
 	</dict>
 </plist>
