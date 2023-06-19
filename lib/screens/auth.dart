@@ -89,37 +89,40 @@ class AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      appBar: AppBar(
-        title: const Text('Chat'),
-      ),
+      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(1),
+      /*appBar: AppBar(
+        title: const Text('Welcome'),
+      ),*/
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              /*Container(
                 margin: const EdgeInsets.only(
-                  top: 30,
-                  bottom: 20,
-                  left: 20,
-                  right: 20,
-                ),
+                    top: 30, bottom: 20, left: 20, right: 20),
                 width: 200,
                 child: Image.asset('assets/images/logo3.png'),
-              ),
+              ),*/
               Container(
                 constraints: const BoxConstraints(maxWidth: 500),
                 child: Card(
                   margin: const EdgeInsets.all(20),
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(20),
                       child: Form(
                         key: _form,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            const SizedBox(height: 10),
+                            Text(
+                              _isLoggedIn ? 'Welcome back' : 'Welcome',
+                              style: Theme.of(context).textTheme.titleLarge,
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(height: 20),
                             if (!_isLoggedIn)
                               UserImagePicker(
                                 onPickImage: (pickedImage) {
@@ -175,17 +178,21 @@ class AuthScreenState extends State<AuthScreen> {
                                 _enteredPassword = value!;
                               },
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 20),
                             if (_isAuthenticating)
                               const CircularProgressIndicator(),
                             if (!_isAuthenticating)
-                              ElevatedButton(
-                                onPressed: _submit,
-                                style: ElevatedButton.styleFrom(
+                              SizedBox(
+                                width: 200,
+                                child: ElevatedButton(
+                                  onPressed: _submit,
+                                  style: ElevatedButton.styleFrom(
                                     backgroundColor: Theme.of(context)
                                         .colorScheme
-                                        .primaryContainer),
-                                child: Text(_isLoggedIn ? 'Login' : 'Signup'),
+                                        .primaryContainer,
+                                  ),
+                                  child: Text(_isLoggedIn ? 'Login' : 'Signup'),
+                                ),
                               ),
                             if (!_isAuthenticating)
                               TextButton(
