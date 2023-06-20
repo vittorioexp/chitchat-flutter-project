@@ -41,7 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
             },
             icon: Icon(
               Icons.exit_to_app,
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
           )
         ],

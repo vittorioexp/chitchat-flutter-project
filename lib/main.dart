@@ -4,6 +4,7 @@ import 'package:chitchat/screens/splash.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
@@ -28,10 +29,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'FlutterChat',
       theme: ThemeData().copyWith(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 160, 96, 255),
-        ),
+        textTheme: GoogleFonts.latoTextTheme(ThemeData().textTheme),
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
