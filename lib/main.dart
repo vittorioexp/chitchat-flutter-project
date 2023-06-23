@@ -15,7 +15,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Add an artificial delay before running the app
+// Add an artificial delay before running the app
   await Future.delayed(const Duration(seconds: 1));
 
   runApp(const App());
@@ -29,6 +29,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'FlutterChat',
       theme: ThemeData().copyWith(
+        useMaterial3: false,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF2296F3),
+          background: const Color(0xFFD9E2D6),
+        ),
         textTheme: GoogleFonts.latoTextTheme(ThemeData().textTheme),
       ),
       home: StreamBuilder(
@@ -41,6 +46,8 @@ class App extends StatelessWidget {
           if (snapshot.hasData) {
             return const ChatsScreen();
           }
+
+          if (snapshot.hasError) {}
 
           return const AuthScreen();
         },

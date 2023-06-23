@@ -20,7 +20,7 @@ class AuthScreen extends StatefulWidget {
 class AuthScreenState extends State<AuthScreen> {
   final _form = GlobalKey<FormState>();
 
-  var _isLoggedIn = true;
+  var _isLoggingIn = false;
   var _enteredEmail = '';
   var _enteredUsername = '';
   var _enteredPassword = '';
@@ -33,18 +33,17 @@ class AuthScreenState extends State<AuthScreen> {
     if (!isValid) {
       return;
     }
-
-    if (!_isLoggedIn && _selectedImage == null) {
-      return;
-    }
-
-    _form.currentState!.save();
-
     try {
+      if (!_isLoggingIn && _selectedImage == null) {
+        throw Exception('Please, select a profile photo');
+      }
+
+      _form.currentState!.save();
+
       setState(() {
         _isAuthenticating = true;
       });
-      if (_isLoggedIn) {
+      if (_isLoggingIn) {
         await _firebase.signInWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
       } else {
@@ -80,6 +79,12 @@ class AuthScreenState extends State<AuthScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(authFailedMessage)),
       );
+    } on Exception catch (error) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(error.toString().replaceFirst('Exception: ', ''))),
+      );
     }
     setState(() {
       _isAuthenticating = false;
@@ -89,25 +94,18 @@ class AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(1),
-      /*appBar: AppBar(
-        title: const Text('Welcome'),
-      ),*/
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /*Container(
-                margin: const EdgeInsets.only(
-                    top: 30, bottom: 20, left: 20, right: 20),
-                width: 200,
-                child: Image.asset('assets/images/logo3.png'),
-              ),*/
               Container(
+                padding: const EdgeInsets.all(20),
                 constraints: const BoxConstraints(maxWidth: 500),
                 child: Card(
-                  margin: const EdgeInsets.all(20),
+                  elevation: 10,
+                  margin: const EdgeInsets.all(0),
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(20),
@@ -115,23 +113,39 @@ class AuthScreenState extends State<AuthScreen> {
                         key: _form,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             const SizedBox(height: 10),
                             Text(
-                              _isLoggedIn ? 'Welcome back' : 'Welcome',
-                              style: Theme.of(context).textTheme.titleLarge,
-                              textAlign: TextAlign.left,
+                              _isLoggingIn ? 'Login' : 'Create account',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                  ),
+                              textAlign: TextAlign.center,
                             ),
-                            const SizedBox(height: 20),
-                            if (!_isLoggedIn)
+                            const SizedBox(height: 30),
+                            if (!_isLoggingIn)
                               UserImagePicker(
                                 onPickImage: (pickedImage) {
                                   _selectedImage = pickedImage;
                                 },
                               ),
+                            if (!_isLoggingIn) const SizedBox(height: 20),
                             TextFormField(
-                              decoration: const InputDecoration(
-                                  labelText: 'Email address'),
+                              decoration: InputDecoration(
+                                hintText: 'E-mail',
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    width: 1,
+                                    color: Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
                               keyboardType: TextInputType.emailAddress,
                               autocorrect: false,
                               textCapitalization: TextCapitalization.none,
@@ -147,10 +161,19 @@ class AuthScreenState extends State<AuthScreen> {
                                 _enteredEmail = value!;
                               },
                             ),
-                            if (!_isLoggedIn)
+                            const SizedBox(height: 20),
+                            if (!_isLoggingIn)
                               TextFormField(
-                                decoration: const InputDecoration(
-                                    labelText: 'Username'),
+                                decoration: InputDecoration(
+                                  hintText: 'Username',
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      width: 1,
+                                      color: Colors.grey,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                ),
                                 enableSuggestions: false,
                                 onSaved: (value) {
                                   _enteredUsername = value!;
@@ -164,9 +187,18 @@ class AuthScreenState extends State<AuthScreen> {
                                   return null;
                                 },
                               ),
+                            if (!_isLoggingIn) const SizedBox(height: 20),
                             TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'Password'),
+                              decoration: InputDecoration(
+                                hintText: 'Password',
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    width: 1,
+                                    color: Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
                               obscureText: true,
                               validator: (value) {
                                 if (value == null || value.trim().length < 6) {
@@ -178,33 +210,56 @@ class AuthScreenState extends State<AuthScreen> {
                                 _enteredPassword = value!;
                               },
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 5),
+                            if (_isAuthenticating) const SizedBox(height: 20),
                             if (_isAuthenticating)
                               const CircularProgressIndicator(),
+                            const SizedBox(height: 5),
                             if (!_isAuthenticating)
-                              SizedBox(
-                                width: 200,
-                                child: ElevatedButton(
-                                  onPressed: _submit,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .primaryContainer,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    _isLoggingIn
+                                        ? 'Do not have an account?'
+                                        : 'Already have an account?',
                                   ),
-                                  child: Text(_isLoggedIn ? 'Login' : 'Signup'),
-                                ),
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isLoggingIn = !_isLoggingIn;
+                                      });
+                                    },
+                                    child: Text(
+                                      _isLoggingIn
+                                          ? 'Click here to create one.'
+                                          : 'Click here to log in.',
+                                    ),
+                                  ),
+                                ],
                               ),
                             if (!_isAuthenticating)
-                              TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isLoggedIn = !_isLoggedIn;
-                                  });
-                                },
-                                child: Text(_isLoggedIn
-                                    ? 'Create an account'
-                                    : 'I already have an account'),
-                              )
+                              Container(
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width: 100,
+                                  child: ElevatedButton(
+                                    onPressed: _submit,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.primary,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      _isLoggingIn ? 'Login' : 'Signup',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ),

@@ -39,6 +39,7 @@ flutter:
     - assets/images/logo1.png
     - assets/images/logo2.png
     - assets/images/logo2-250x250.png
+    - assets/images/logo2-removebg.png
     - assets/images/logo3.png
     - assets/images/default_profile_photo_1.png
     - assets/images/splash.png
