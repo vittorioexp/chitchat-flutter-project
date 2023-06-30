@@ -47,6 +47,17 @@ class AuthScreenState extends State<AuthScreen> {
         await _firebase.signInWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
       } else {
+        // Check image size
+        final imageFile = _selectedImage!;
+        final imageBytes = await imageFile.readAsBytes();
+        final imageSizeKB = imageBytes.lengthInBytes / 1024;
+        const maxImageSizeMB = 5;
+        const maxImageSizeKB = maxImageSizeMB * 1024;
+        if (imageSizeKB > maxImageSizeKB) {
+          throw Exception(
+              'The selected image exceeds the maximum allowed size of $maxImageSizeMB MB.');
+        }
+
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
 
