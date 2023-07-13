@@ -80,10 +80,9 @@ class _SetGroupInfoScreenState extends State<SetGroupInfoScreen> {
         'image_url': imageUrl,
         'preview_message': 'No message yet...'
       });
-
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const ChatsScreen(),
-      ));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const ChatsScreen()),
+          (Route<dynamic> route) => false);
     } on Exception catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
