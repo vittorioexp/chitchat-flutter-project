@@ -1,15 +1,16 @@
+import 'package:chitchat/screens/create_group/set_group_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class SelectUser extends StatefulWidget {
-  const SelectUser({super.key});
+class SelectUserScreen extends StatefulWidget {
+  const SelectUserScreen({super.key});
 
   @override
-  State<SelectUser> createState() => _SelectUserState();
+  State<SelectUserScreen> createState() => _SelectUserState();
 }
 
-class _SelectUserState extends State<SelectUser> {
+class _SelectUserState extends State<SelectUserScreen> {
   final authenticatedUser = FirebaseAuth.instance.currentUser!;
   List<String> selectedUsers = [];
   List<String> selectedUserUIDs = [];
@@ -24,10 +25,12 @@ class _SelectUserState extends State<SelectUser> {
             IconButton(
               icon: const Icon(Icons.check),
               onPressed: () {
-                Navigator.of(context).pop({
-                  'usernames': selectedUsers,
-                  'uids': selectedUserUIDs,
-                });
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => SetGroupInfoScreen(
+                    uids: selectedUserUIDs,
+                    usernames: selectedUsers,
+                  ),
+                ));
               },
             ),
         ],

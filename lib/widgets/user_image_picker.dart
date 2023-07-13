@@ -2,19 +2,23 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class UserImagePicker extends StatefulWidget {
+class CustomImagePicker extends StatefulWidget {
   final void Function(File pickedImage) onPickImage;
+  final String title;
 
-  const UserImagePicker({Key? key, required this.onPickImage})
-      : super(key: key);
+  const CustomImagePicker({
+    super.key,
+    required this.title,
+    required this.onPickImage,
+  });
 
   @override
   State<StatefulWidget> createState() {
-    return _UserImagePickerState();
+    return _CustomImagePickerState();
   }
 }
 
-class _UserImagePickerState extends State<UserImagePicker> {
+class _CustomImagePickerState extends State<CustomImagePicker> {
   File? _pickedImageFile;
 
   void _pickImage() async {
@@ -22,8 +26,8 @@ class _UserImagePickerState extends State<UserImagePicker> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(
-            'Add profile photo',
+          title: Text(
+            widget.title,
             textAlign: TextAlign.center,
           ),
           actions: [
@@ -79,7 +83,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
           onPressed: _pickImage,
           icon: const Icon(Icons.image),
           label: Text(
-            'Add profile photo',
+            widget.title,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
         )

@@ -140,7 +140,8 @@ class AuthScreenState extends State<AuthScreen> {
                             ),
                             const SizedBox(height: 30),
                             if (!_isLoggingIn)
-                              UserImagePicker(
+                              CustomImagePicker(
+                                title: 'Add profile photo',
                                 onPickImage: (pickedImage) {
                                   _selectedImage = pickedImage;
                                 },

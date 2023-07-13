@@ -29,8 +29,6 @@ Great! Now you're all set to use the Chitchat Flutter application.
 Future developments
 ---
 
-- Display the message 'No users found' when attempting to create a group without any registered users.
-- Edit the group creation screen so that it allows users to set a custom group name and choose a picture for the group.
 - Develop a group modification screen to enable users to make changes to an existing group.
 - Create a user profile screen that offers options to edit the username, email, and profile picture.
 - Show a notification badge or a number near the chat list tile to indicate the presence of new unread messages

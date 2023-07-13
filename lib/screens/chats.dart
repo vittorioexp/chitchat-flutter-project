@@ -1,6 +1,5 @@
-import 'package:chitchat/screens/auth.dart';
 import 'package:chitchat/screens/chat.dart';
-import 'package:chitchat/widgets/select_user.dart';
+import 'package:chitchat/screens/create_group/select_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,33 +28,8 @@ class ChatsScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final selectedUser = await Navigator.of(context)
-              .push(MaterialPageRoute(builder: (ctx) => const SelectUser()));
-
-          if (selectedUser == null) {
-            return;
-          }
-
-          final selectedUsernames = selectedUser['usernames'];
-          final selectedUids = selectedUser['uids'];
-
-          final userData = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(authenticatedUser.uid)
-              .get();
-
-          final chatName =
-              '${userData['username']}, ${selectedUsernames.join(', ')}';
-
-          await FirebaseFirestore.instance.collection('chats').add({
-            'lastActivity': Timestamp.now(),
-            'name': (chatName.length > 40)
-                ? '${chatName.substring(0, 37)}...'
-                : chatName,
-            'participants': [authenticatedUser.uid, ...selectedUids],
-            'image_url': '',
-            'preview_message': 'No message yet...'
-          });
+          await Navigator.of(context).push(
+              MaterialPageRoute(builder: (ctx) => const SelectUserScreen()));
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: Icon(
@@ -109,14 +83,15 @@ class ChatsScreen extends StatelessWidget {
                       : Image.asset('assets/images/default_profile_photo_1.png')
                           .image,
                 ),
-                title: Text(chatWithUser['name']),
+                title: Text((chatWithUser['name'].length > 40)
+                    ? '${chatWithUser['name'].substring(0, 37)}...'
+                    : chatWithUser['name']),
                 subtitle: Text(
                     chatWithUser['preview_message'] ?? 'No message yet...'),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (ctx) => ChatScreen(
-                            chatId: chatsWithUser[index].id,
-                          )));
+                      builder: (ctx) =>
+                          ChatScreen(chatId: chatsWithUser[index].id)));
                 },
               );
             },
