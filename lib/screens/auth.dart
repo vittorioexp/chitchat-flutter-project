@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:chitchat/widgets/user_image_picker.dart';
+import 'package:chitchat/widgets/custom_image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -142,6 +142,9 @@ class AuthScreenState extends State<AuthScreen> {
                             if (!_isLoggingIn)
                               CustomImagePicker(
                                 title: 'Add profile photo',
+                                label: true,
+                                image:
+                                    'assets/images/default_profile_photo_1.png',
                                 onPickImage: (pickedImage) {
                                   _selectedImage = pickedImage;
                                 },

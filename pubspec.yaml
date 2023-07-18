@@ -42,4 +42,7 @@ flutter:
     - assets/images/logo2-removebg.png
     - assets/images/logo3.png
     - assets/images/default_profile_photo_1.png
+    - assets/images/default_upload_photo_1.png
+    - assets/images/default_upload_photo_2.png
+    - assets/images/default_upload_photo_3.png
     - assets/images/splash.png

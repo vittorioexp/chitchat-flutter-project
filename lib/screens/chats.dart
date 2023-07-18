@@ -1,5 +1,5 @@
 import 'package:chitchat/screens/chat.dart';
-import 'package:chitchat/screens/create_group/select_user.dart';
+import 'package:chitchat/screens/create_group.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +28,8 @@ class ChatsScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await Navigator.of(context).push(
-              MaterialPageRoute(builder: (ctx) => const SelectUserScreen()));
+          await Navigator.of(context)
+              .push(MaterialPageRoute(builder: (ctx) => CreateGroupScreen()));
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: Icon(

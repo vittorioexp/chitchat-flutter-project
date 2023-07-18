@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CustomImagePicker extends StatefulWidget {
-  final void Function(File pickedImage) onPickImage;
   final String title;
+  final bool label;
+  final String image;
+  final void Function(File pickedImage) onPickImage;
 
   const CustomImagePicker({
     super.key,
     required this.title,
+    required this.label,
+    required this.image,
     required this.onPickImage,
   });
 
@@ -76,17 +80,18 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
             backgroundColor: Colors.grey,
             backgroundImage: _pickedImageFile != null
                 ? FileImage(_pickedImageFile!) as ImageProvider
-                : const AssetImage('assets/images/default_profile_photo_1.png'),
+                : AssetImage(widget.image),
           ),
         ),
-        TextButton.icon(
-          onPressed: _pickImage,
-          icon: const Icon(Icons.image),
-          label: Text(
-            widget.title,
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
-          ),
-        )
+        if (widget.label)
+          TextButton.icon(
+            onPressed: _pickImage,
+            icon: const Icon(Icons.image),
+            label: Text(
+              widget.title,
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
+          )
       ],
     );
   }
