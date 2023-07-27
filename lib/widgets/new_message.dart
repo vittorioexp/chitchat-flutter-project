@@ -46,7 +46,7 @@ class _NewMessageState extends State<NewMessage> {
         .collection('chats')
         .doc(widget.chatId)
         .update({
-      'preview_message': '${userData.data()!['username']}: ${enteredMessage}',
+      'preview_message': '${userData.data()!['username']}: $enteredMessage',
     });
   }
 

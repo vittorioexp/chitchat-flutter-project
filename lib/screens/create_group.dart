@@ -8,10 +8,11 @@ import 'package:flutter/material.dart';
 
 import 'package:chitchat/widgets/custom_image_picker.dart';
 
-final _firebase = FirebaseAuth.instance;
 final authenticatedUser = FirebaseAuth.instance.currentUser!;
 
 class CreateGroupScreen extends StatefulWidget {
+  const CreateGroupScreen({super.key});
+
   @override
   State<CreateGroupScreen> createState() => _CreateGroupScreenState();
 }
@@ -21,8 +22,6 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
   final _form = GlobalKey<FormState>();
   File? _selectedImage;
   var _enteredName = '';
-  var _enteredDescription = '';
-  var _isLoading = false;
   List<String> selectedUsernames = [];
   List<String> selectedUserUIDs = [];
   late TextEditingController searchController;
@@ -54,11 +53,8 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
 
       _form.currentState!.save();
 
-      setState(() {
-        _isLoading = true;
-      });
+      setState(() {});
 
-      print('Checking image size...');
       final imageFile = _selectedImage!;
       final imageBytes = await imageFile.readAsBytes();
       final imageSizeKB = imageBytes.lengthInBytes / 1024;
@@ -69,7 +65,6 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
             'The selected image exceeds the maximum allowed size of $maxImageSizeMB MB.');
       }
 
-      print('Uploading image to Firebase Storage...');
       final storageRef = FirebaseStorage.instance
           .ref()
           .child('group_images')
@@ -78,7 +73,6 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
       await storageRef.putFile(_selectedImage!);
       final imageUrl = await storageRef.getDownloadURL();
 
-      print('Fetching user data...');
       final userData = await FirebaseFirestore.instance
           .collection('users')
           .doc(authenticatedUser.uid)
@@ -88,17 +82,14 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
           ? '${userData['username']}, ${selectedUsernames.join(', ')}'
           : _enteredName;
 
-      print('Creating chat document...');
       await FirebaseFirestore.instance.collection('chats').add({
         'lastActivity': Timestamp.now(),
         'name': chatName,
-        'description': _enteredDescription,
         'participants': [authenticatedUser.uid, ...selectedUserUIDs],
         'image_url': imageUrl,
         'preview_message': 'No message yet...'
       });
 
-      print('Navigating to ChatsScreen...');
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const ChatsScreen()),
           (Route<dynamic> route) => false);
@@ -110,9 +101,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
       );
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() {});
   }
 
   @override
