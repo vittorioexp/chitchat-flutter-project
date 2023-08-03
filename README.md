@@ -1,7 +1,10 @@
+![](https://github.com/vittorioexp/chitchat_flutter_project/blob/main/demo.gif)
+---
+
+
 # Chitchat Flutter project
 
 This repository is an example application for the Flutter framework in Dart which can interact with Firebase. It allows users to message in groups. The project covers a wide range of topics, providing valuable insights into various aspects of Flutter development.
-
 
 Getting Started
 To get started with this project, clone the repository to your local machine and install the Flutter dependencies by running the following command:
