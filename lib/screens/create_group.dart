@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chitchat/screens/chats.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -231,7 +232,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                           child: ListTile(
                             leading: CircleAvatar(
                               backgroundImage: imageUrl != null
-                                  ? NetworkImage(imageUrl)
+                                  ? CachedNetworkImageProvider(imageUrl)
                                   : const AssetImage(
                                           'assets/images/default_profile_photo_1.png')
                                       as ImageProvider<Object>,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 // A MessageBubble for showing a single chat message on the ChatScreen.
 class MessageBubble extends StatelessWidget {
@@ -51,9 +52,7 @@ class MessageBubble extends StatelessWidget {
             // Align user image to the right, if the message is from me.
             right: isMe ? 0 : null,
             child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                userImage!,
-              ),
+              backgroundImage: CachedNetworkImageProvider(userImage!),
               backgroundColor: theme.colorScheme.primary.withAlpha(180),
               radius: 23,
             ),

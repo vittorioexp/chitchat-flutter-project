@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chitchat/screens/chat.dart';
 import 'package:chitchat/screens/create_group.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -79,7 +80,7 @@ class ChatsScreen extends StatelessWidget {
                 leading: CircleAvatar(
                   radius: 26,
                   backgroundImage: chatWithUser['image_url'].toString() != ""
-                      ? NetworkImage(chatWithUser['image_url'])
+                      ? CachedNetworkImageProvider(chatWithUser['image_url'])
                       : Image.asset('assets/images/default_profile_photo_1.png')
                           .image,
                 ),
